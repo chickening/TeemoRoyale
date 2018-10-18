@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card
+public class Card : ScriptableObject
 {
     [SerializeField]
     string _id;
@@ -22,6 +22,12 @@ public class Card
     {
         get { return _image; }
     }
+    [SerializeField]
+    string _desription;
+    public string description
+    {
+        get { _desription; }
+    }
     public virtual void PreActive()
     {
 
@@ -36,4 +42,13 @@ public class Card
     {
         return (Card)MemberwiseClone();
     }
+}
+
+public class SpawnCard : Card
+{
+
+}
+public class SkillCard : Card
+{
+
 }
