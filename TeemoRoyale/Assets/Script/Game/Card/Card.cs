@@ -26,18 +26,18 @@ public class Card : ScriptableObject
     string _desription;
     public string description
     {
-        get { _desription; }
+        get { return _desription; }
     }
-    public virtual void PreActive()
+    [SerializeField]
+    UICardGuide cardGuide;
+    [SerializeField]
+    float guideSize;
+
+    public virtual void Active(Vector2 position)
     {
 
 
-    }
-    public virtual void Active()
-    {
-
-
-    }
+    }// 카드를 사용하면 호출됨
     public Card Clone()
     {
         return (Card)MemberwiseClone();
@@ -46,9 +46,26 @@ public class Card : ScriptableObject
 
 public class SpawnCard : Card
 {
+    [SerializeField]
+    GameObject spawnEntityPrefab;
+    [SerializeField]
+    int spawnNum;
 
+    public override void Active(Vector2 position)
+    {
+        for(int i = 0; i < spawnNum; i++)
+        {
+            GameData.field.Spawn(spawnEntityPrefab, position);
+        }
+    }
 }
-public class SkillCard : Card
+public class SpellCard : Card
 {
+    [SerializeField]
+    Spell spell;
 
+    public override void Active(Vector2 position)
+    {
+        spell.Active(position);
+    }
 }

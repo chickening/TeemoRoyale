@@ -4,14 +4,35 @@ using UnityEngine;
 
 public class GameLoader : MonoBehaviour // 게임 리소스를 로딩 하는곳
 {
-    Card[] loadingCardArr;
-    Entity[] loadingEntityArr;
-    public void Awake()
+
+    static public GameLoader instance
     {
-        int tempSize = loadingCardArr.Length;
-        for(int i = 0 ; i < tempSize; i++)
+        get;
+        private set;
+    }
+    [SerializeField]
+    GameObject towerPrefab;
+    [System.Serializable]
+    class TowerInfo
+    {
+        public int team;
+        public Transform towerPosition;
+    }
+    [SerializeField]
+    TowerInfo[] towerInfoArr;
+    void Awake()
+    {  
+        if(instance == null)
+            instance = this;
+    }
+    static public void GameLoad()
+    {
+        GameData.field = new Field();
+        for(int i = 0; i < instance.towerInfoArr.Length; i++)
         {
-            GameData.AddCard(loadingCardArr[i]);
+            GameEntity entity = GameData.field.Spawn(instance.towerPrefab, instance.towerInfoArr[i].towerPosition.position).GetComponent<GameEntity>();
+            entity.team = instance.towerInfoArr[i].team;
         }
+
     }
 }

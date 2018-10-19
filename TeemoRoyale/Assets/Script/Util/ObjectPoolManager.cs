@@ -5,7 +5,9 @@ using UnityEngine;
 public static class ObjectPoolManager
 {
     static Dictionary<string, ObjectPool> poolList = new Dictionary<string, ObjectPool>();
-
+    /*
+        삭제 타이머 나중에 구현
+     */
     static public ObjectPool FindObjectPool(GameObject obj)
     {
         ObjectPool pool = null;

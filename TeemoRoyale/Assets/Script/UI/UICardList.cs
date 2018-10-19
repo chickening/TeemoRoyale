@@ -1,55 +1,69 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UICardList : MonoBehaviour 
-{
+public class UICardList : MonoBehaviour {
 
 	// Use this for initialization
 	[SerializeField]
-	GameObject cardPrefab;
+	GameObject cardPrefeb;	// Need UICard Component
 	[SerializeField]
-	GameObject content;
-	List<GameObject> cardObjectList = new List<GameObject>();
-	List<Card> cardList = new List<Card>();
-
-	void Awake()
+	int _maxCardCapacity;
+	public int maxCardCapacity
 	{
-		GridLayoutGroup grid = content.GetComponent<GridLayoutGroup>();
-		Rect sizeRect = cardPrefab.GetComponent<RectTransform>().rect;
-		grid.cellSize = new Vector2(cardPrefab.transform.localScale.x * sizeRect.width, cardPrefab.transform.localScale.y * sizeRect.height);
-		grid.spacing = new Vector2(5,0);
+		get
+		{
+			return _maxCardCapacity;
+		}
+		set
+		{
+			_maxCardCapacity = value;
+		}
 	}
-	public void AddCard(Card card)
+	
+	List<Card> cardList = new List<Card>();
+	List<GameObject> cardObjectList = new List<GameObject>();
+	int? selectedCard = null;
+	public void AddCard(Card card, int index = -1)
 	{
-		cardList.Add(card);
-		RenderUpdate();
+		if(index == -1)
+		{
+			cardList.Add(card);
+			cardObjectList.Add(ObjectPoolManager.GetObjectPool(cardPrefeb).PopItem());
+		}
+		else
+		{
+			if(index < 0 || index >= cardList.Count)
+			{
+				cardList.Insert(index,card);
+				cardObjectList.Insert(index, ObjectPoolManager.GetObjectPool(cardPrefeb).PopItem());
+			}
+		}
+		UpdateCardList();
+	}
+	public void SelectCard(int index)
+	{
+		if(index < 0 || index >= cardList.Count)
+			return;
+		selectedCard = index;
+		UpdateCardList();
+	}
+	public void DeselectCard()
+	{
+		selectedCard = null;
+		UpdateCardList();
 	}
 	public void RemoveCard(int index)
 	{
+		if(index < 0 || index >= cardList.Count)
+			return;
+		if(selectedCard > index)
+			--selectedCard;
 		cardList.RemoveAt(index);
-		RenderUpdate();
+		UpdateCardList();
 	}
-	public void RenderUpdate()
+	void UpdateCardList()
 	{
-		while(cardObjectList.Count > cardList.Count)
-		{
-			//cardObject 반환 코드 추가
-		}
-
-		while(cardObjectList.Count < cardList.Count)
-		{
-			//cardObject 추가 코드 추가
-			//content밑에 삽입 코도 추가
-		}
-
-		int sizeCardList = cardList.Count;
-		for(int i = 0; i < sizeCardList; i++)
-		{
-			UICard uiCard = cardObjectList[i].GetComponent<UICard>();
-			uiCard.image = cardList[i].image;
-			uiCard.cost = cardList[i].cost;
-		}
+		
 	}
 }

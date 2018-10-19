@@ -9,17 +9,9 @@ public static class GameData    // 게임 데이터를 저장한는곳
         get;
         set;
     }
-
-    static Dictionary<string, Card> cardList;
-    static public void AddCard(Card card)
+    static public Field field
     {
-        cardList.Add(card.id, card);
+        get;
+        set;
     }
-    static public Card FindCard(string id)
-    {
-        Card card = null;
-        cardList.TryGetValue(id, out card);
-        return card;
-    }
-
 }

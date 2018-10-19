@@ -44,3 +44,9 @@ TagManager:
   - name: Background
     uniqueID: 2972914181
     locked: 0
+  - name: Effect
+    uniqueID: 1474670125
+    locked: 0
+  - name: GameEntity
+    uniqueID: 3709862437
+    locked: 0
