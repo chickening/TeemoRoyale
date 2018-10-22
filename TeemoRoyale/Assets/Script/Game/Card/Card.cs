@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New CardData", menuName = "Card Data", order = 51)]
 public class Card : ScriptableObject
-{
+{ 
     [SerializeField]
     string _id;
     public string id
@@ -29,11 +30,15 @@ public class Card : ScriptableObject
         get { return _desription; }
     }
     [SerializeField]
-    UICardGuide cardGuide;
+    UICardGuide _cardGuide;
+    public UICardGuide cardGuide
+    {
+        get{ return _cardGuide; }
+    }
     [SerializeField]
     float guideSize;
 
-    public virtual void Active(Vector2 position)
+    public virtual void Active(Player player, Vector2 position)
     {
 
 
@@ -41,31 +46,5 @@ public class Card : ScriptableObject
     public Card Clone()
     {
         return (Card)MemberwiseClone();
-    }
-}
-
-public class SpawnCard : Card
-{
-    [SerializeField]
-    GameObject spawnEntityPrefab;
-    [SerializeField]
-    int spawnNum;
-
-    public override void Active(Vector2 position)
-    {
-        for(int i = 0; i < spawnNum; i++)
-        {
-            GameData.field.Spawn(spawnEntityPrefab, position);
-        }
-    }
-}
-public class SpellCard : Card
-{
-    [SerializeField]
-    Spell spell;
-
-    public override void Active(Vector2 position)
-    {
-        spell.Active(position);
     }
 }

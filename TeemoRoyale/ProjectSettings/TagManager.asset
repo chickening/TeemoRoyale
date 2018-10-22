@@ -50,3 +50,6 @@ TagManager:
   - name: GameEntity
     uniqueID: 3709862437
     locked: 0
+  - name: GameUI
+    uniqueID: 3512327547
+    locked: 0

@@ -16,7 +16,7 @@ public class BulletTower : GameEntity
             return BTState.CONTINUE; 
         }
         lastShootTime = Time.time;
-        GameCoroutineManager.RegisterCoroutine(FireCoroutine());
+        CoroutineManager.RegisterCoroutine(FireCoroutine());
         return BTState.SUCCESS;
     }
     IEnumerator FireCoroutine()

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96af369a8bfa2bf4886d0690a9deb761, type: 3}
+  m_Name: TopToBottomLeft
+  m_EditorClassIdentifier: 
+  createPathVertexs:
+  - {fileID: 4987392993934002, guid: 0e4612d8f757e42438e65799134bffad, type: 2}
+  - {fileID: 4496703867895316, guid: d2bbb1a1a4a139646abd330eabcb9f6b, type: 2}
+  - {fileID: 4110490899241994, guid: cab16cff4a33a694f9701fe79f63e32e, type: 2}
+  - {fileID: 4799629521211762, guid: a015aa50ac0f5ae4f96cfc759a685cf1, type: 2}
+  - {fileID: 4604273436791144, guid: 6ec31adc5148df540a1ac4859dab0593, type: 2}
+  - {fileID: 4640381110155302, guid: b91b040d46d4d884884592fa9e43c13e, type: 2}

@@ -67,8 +67,7 @@ public class UIBar : MonoBehaviour {
 	}
 	void Start () 
 	{
-		value = 50;
-		maxValue = 100;
+
 	}
 	void UpdateBar()
 	{

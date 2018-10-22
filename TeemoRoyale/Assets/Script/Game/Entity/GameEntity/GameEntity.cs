@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class GameEntity : Entity    // BT에 의존
 {    
+    public Contoller contoller;
     public int team
     {
         get;
@@ -40,6 +41,10 @@ public class GameEntity : Entity    // BT에 의존
     */
     new Rigidbody2D rigidbody;
     List<Vector2> waypointList = new List<Vector2>();       // 이동경로
+    protected override void Update()
+    {
+        contoller.Tick();
+    }
     public BTState Move()      // 엔티디 이동 함수
     {
         if(waypointList.Count == 0)
@@ -83,6 +88,11 @@ public class GameEntity : Entity    // BT에 의존
     public void Die()
     {
         GameData.field.DeSpawn(gameObject);
+    }
+
+    public void FirstState()
+    {
+        hp = maxHp;
     }
 
 }

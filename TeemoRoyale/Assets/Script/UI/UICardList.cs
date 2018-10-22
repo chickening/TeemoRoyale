@@ -2,68 +2,95 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UICardList : MonoBehaviour {
+public class UICardList : MonoBehaviour 
+{
+	[SerializeField]
+	GameObject uiCardPrefab;
+	[SerializeField]
+	int _capacity;
+	public int capacity
+	{
+		get { return _capacity; }
+	}
+	[SerializeField]
+	Vector2 spacing;
+	List<UICard> uiCardList = new List<UICard>();
+	int? selectedCard;
+	[SerializeField]
+	Player ownerPlayer;
 
-	// Use this for initialization
-	[SerializeField]
-	GameObject cardPrefeb;	// Need UICard Component
-	[SerializeField]
-	int _maxCardCapacity;
-	public int maxCardCapacity
+	public void AddCard(Card card)
 	{
-		get
-		{
-			return _maxCardCapacity;
-		}
-		set
-		{
-			_maxCardCapacity = value;
-		}
+		GameObject newCardObj = ObjectPoolManager.GetObjectPool(uiCardPrefab).PopItem();
+		UICard uiCard = newCardObj.GetComponent<UICard>();
+		uiCard.transform.SetParent(gameObject.transform);
+		uiCard.cardList = this;
+		uiCard.card = card;
+		uiCardList.Add(uiCard);
+		uiCard.index = uiCardList.Count - 1;
+
+		Rect cardTargetRect = GetCardPosition(uiCardList.Count - 1);
+		Rect cardSizeRect = newCardObj.GetComponent<RectTransform>().rect;
+		newCardObj.transform.localScale = new Vector2(cardTargetRect.width / cardSizeRect.width, cardTargetRect.height / cardSizeRect.height);
+
+		Rect cardOrgRect = GetCardPosition(capacity - 1);
+		CoroutineManager.RegisterCoroutine(AnimationUtil.MoveAnimationCoroutine(newCardObj, cardOrgRect.center, cardTargetRect.center ,0.5f));
 	}
-	
-	List<Card> cardList = new List<Card>();
-	List<GameObject> cardObjectList = new List<GameObject>();
-	int? selectedCard = null;
-	public void AddCard(Card card, int index = -1)
-	{
-		if(index == -1)
-		{
-			cardList.Add(card);
-			cardObjectList.Add(ObjectPoolManager.GetObjectPool(cardPrefeb).PopItem());
-		}
-		else
-		{
-			if(index < 0 || index >= cardList.Count)
-			{
-				cardList.Insert(index,card);
-				cardObjectList.Insert(index, ObjectPoolManager.GetObjectPool(cardPrefeb).PopItem());
-			}
-		}
-		UpdateCardList();
-	}
+
 	public void SelectCard(int index)
 	{
-		if(index < 0 || index >= cardList.Count)
-			return;
-		selectedCard = index;
-		UpdateCardList();
+		/*
+			테두리 애니메이션	// 쉐이더 되면 나중에 적용
+		*/
+		Card card = uiCardList[index].card;
+		card.cardGuide.Enable();
 	}
 	public void DeselectCard()
 	{
-		selectedCard = null;
-		UpdateCardList();
-	}
-	public void RemoveCard(int index)
-	{
-		if(index < 0 || index >= cardList.Count)
+		if(selectedCard == null)
 			return;
-		if(selectedCard > index)
-			--selectedCard;
-		cardList.RemoveAt(index);
-		UpdateCardList();
+
+		uiCardList[(int)selectedCard].card.cardGuide.Disable();
 	}
-	void UpdateCardList()
+
+	public void UseCard(int index)
 	{
-		
+		Card card = uiCardList[index].card;
+		card.cardGuide.Disable();
+		ObjectPoolManager.GetObjectPool(uiCardPrefab).PushItem(uiCardList[index].gameObject);
+		uiCardList.RemoveAt(index);
+		card.Active(GameData.player, CameraUtil.GetMouseWorldPosition(Camera.main));
+
+		for(int i = index; i < uiCardList.Count; i++)
+		{
+			Rect newCardRect = GetCardPosition(i);
+			CoroutineManager.RegisterCoroutine(AnimationUtil
+			.MoveAnimationCoroutine(uiCardList[i].gameObject, uiCardList[i].gameObject.transform.localPosition, newCardRect.center,0.5f));
+			uiCardList[i].index = i;
+		}
+	}
+	Rect GetCardPosition(int index)
+	{
+		Rect cardRect = new Rect();
+		Rect cardListSizeRect = gameObject.GetComponent<RectTransform>().rect;
+		Rect cardSizeRect = uiCardPrefab.GetComponent<RectTransform>().rect;
+		float cardWidthPx = (cardListSizeRect.width * gameObject.transform.localScale.x - spacing.x * (capacity + 2)) / capacity;
+		float cardHeightPx = (cardListSizeRect.height * gameObject.transform.localScale.y - spacing.y * 2);
+		cardRect.xMin = cardWidthPx * index + spacing.x * (index + 1);
+		cardRect.xMax = cardRect.xMin + cardWidthPx;
+		cardRect.yMin = spacing.y;
+		cardRect.yMax = cardRect.yMin + cardHeightPx;
+
+		cardRect.x -= cardListSizeRect.width * gameObject.transform.localScale.x / 2;
+		cardRect.y -= cardListSizeRect.height * gameObject.transform.localScale.y / 2;
+		return cardRect;
+	}
+	int GetIndex(Card card)
+	{
+		int index = -1;
+		for(int i = 0; i < uiCardList.Count; i++)
+			if(uiCardList[i].card.GetInstanceID() == card.GetInstanceID())
+				index = i;
+		return index;
 	}
 }

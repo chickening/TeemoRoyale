@@ -19,8 +19,8 @@ public class ObjectPool
     public void CreateItem()
     {
         GameObject createdItem = Object.Instantiate(prefab);
-        PushItem(createdItem);
         createdItem.name = prefab.name;
+        PushItem(createdItem);
     }
     public GameObject PopItem()
     {

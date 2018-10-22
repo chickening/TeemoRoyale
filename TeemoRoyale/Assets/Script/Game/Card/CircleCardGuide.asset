@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3274914d67a4c4e82a4fc9cd4c337c, type: 3}
+  m_Name: CircleCardGuide
+  m_EditorClassIdentifier: 
+  _id: CardGuide_Circle
+  guidePrefab: {fileID: 1394515156584514, guid: 04156352c695d0f4c8cd2d56cebe52da,
+    type: 2}

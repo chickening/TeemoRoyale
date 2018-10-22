@@ -34,5 +34,7 @@ public class GameLoader : MonoBehaviour // 게임 리소스를 로딩 하는곳
             entity.team = instance.towerInfoArr[i].team;
         }
 
+        GameData.player = new Player();
+        GameData.enemyPlayer = new Player();
     }
 }

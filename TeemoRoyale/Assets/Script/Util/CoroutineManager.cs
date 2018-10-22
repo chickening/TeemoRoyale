@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameCoroutineManager : MonoBehaviour
+public class CoroutineManager : MonoBehaviour
 {
-    static public GameCoroutineManager instance
+    static public CoroutineManager instance
     {
         get;
         private set;

@@ -2,33 +2,82 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class UICard : MonoBehaviour 
+using UnityEngine.EventSystems;
+public class UICard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-
 	[SerializeField]
-	Text UICost;
+	Image imageBackground;
 	[SerializeField]
-	Image UIImage;
+	Text textCost;
+	public UICardList cardList
+	{
+		get;
+		set;
+	}
+	public int index
+	{
+		get;
+		set;
+	}
+	public Sprite background
+	{
+		set
+		{
+			imageBackground.sprite = value;
+		}
+		get
+		{
+			return imageBackground.sprite;
+		}
+	}
 	public int cost
 	{
 		set
 		{
-			UICost.text = value.ToString();
+			textCost.text = value.ToString();
 		}
 		get
 		{
-			return int.Parse(UICost.text);
+			return int.Parse(textCost.text);
 		}
 	}
-	public Sprite image
+	Card _card;
+	public Card card
 	{
 		set
 		{
-			UIImage.sprite = value;
+			_card = value;
+			background = card.image;
+			cost = card.cost;
 		}
 		get
 		{
-			return UIImage.sprite;
+			return _card;
 		}
 	}
+	bool isMouseDown = false;
+	public void OnPointerDown(PointerEventData eventData)
+	{
+		if(card.cost > GameData.player.cost)
+			return;
+		cardList.SelectCard(index);
+		isMouseDown = true;
+	}
+	void OnMouseDrag()
+	{
+
+	}
+	public void OnPointerUp(PointerEventData eventData)
+	{
+		if(!isMouseDown)
+			return;
+		isMouseDown = false;
+		Rect cardListSizeRect = cardList.GetComponent<RectTransform>().rect;
+		Vector2 mousePos = Input.mousePosition;
+		/*카드 실패 조건 추가 */
+		
+		cardList.UseCard(index);
+		
+	}
+
 }

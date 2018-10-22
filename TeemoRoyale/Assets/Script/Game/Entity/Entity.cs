@@ -10,7 +10,7 @@ public class Entity : MonoBehaviour
     {
         get { return _id; }
     }
-    public Contoller contoller;
+
     public Entity Clone()
     {
         return (Entity)MemberwiseClone();
@@ -26,6 +26,6 @@ public class Entity : MonoBehaviour
     }
     protected virtual void Update()
     {
-        contoller.Tick();
+        
     }
 }

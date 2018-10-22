@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 215a20bb2f3d4fd4c87118453cac740e, type: 3}
+  m_Name: New CardData
+  m_EditorClassIdentifier: 
+  _id: SpawnTowerCard
+  _cost: 3
+  _image: {fileID: 21300000, guid: f3489e0c0aeb13c45ab7c3589c62e90a, type: 3}
+  _desription: Card
+  _cardGuide: {fileID: 11400000, guid: 7cda73fa72fe7ae478b173644a27dcfb, type: 2}
+  guideSize: 1
+  spawnEntityPrefab: {fileID: 1692663657114294, guid: 31616fea87447424aa3c6b1b2927c964,
+    type: 2}
+  spawnNum: 1
