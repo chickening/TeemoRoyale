@@ -26,6 +26,8 @@ public class ObjectPool
     {
         if(objList.Count == 0)
             CreateItem();
+        if(prefab.name.Equals("Gangplank"))
+            Debug.Log(objList.Count);
         GameObject obj = objList.Dequeue();
         obj.SetActive(true);
         return obj;
@@ -33,7 +35,7 @@ public class ObjectPool
     public void PushItem(GameObject item)
     {
         item.SetActive(false);
-        if(objList.Count > capacity)
+        if(objList.Count >= capacity)
             Object.Destroy(item);
         objList.Enqueue(item);
     }

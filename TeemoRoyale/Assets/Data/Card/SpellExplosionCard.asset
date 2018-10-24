@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d966468f4ec684d9b6d21795b38fdf, type: 3}
+  m_Name: SpellExplosionCard
+  m_EditorClassIdentifier: 
+  _id: 
+  _cost: 2
+  _image: {fileID: 21300000, guid: cf13c968b28eb8242adc5141b9e949b9, type: 3}
+  _desription: 
+  _cardGuide: {fileID: 11400000, guid: 7cda73fa72fe7ae478b173644a27dcfb, type: 2}
+  guideSize: 1
+  spell: {fileID: 11400000, guid: 3b8da804aaa87e546a7fccc74f6268e8, type: 2}

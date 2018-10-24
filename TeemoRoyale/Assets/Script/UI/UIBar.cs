@@ -83,4 +83,9 @@ public class UIBar : MonoBehaviour {
 			bar.transform.localPosition = new Vector2(orgX, orgY - (1 - percent) * height * orgYScale / 2);
 		}
 	}
+	public void MovePosition(Vector2 pos)
+	{
+		orgX = pos.x;
+		orgY = pos.y;
+	}
 }

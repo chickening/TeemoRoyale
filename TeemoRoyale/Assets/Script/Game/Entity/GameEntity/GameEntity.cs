@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameEntity : Entity    // BT에 의존
 {    
     public Contoller contoller;
-    public int team
+    public Team team
     {
         get;
         set;
@@ -39,11 +39,16 @@ public class GameEntity : Entity    // BT에 의존
     /*
         API
     */
+    bool isDie = false;
     new Rigidbody2D rigidbody;
-    List<Vector2> waypointList = new List<Vector2>();       // 이동경로
+    protected List<Vector2> waypointList = new List<Vector2>();       // 이동경로
     protected override void Update()
     {
         contoller.Tick();
+    }
+    protected override void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
     }
     public BTState Move()      // 엔티디 이동 함수
     {
@@ -75,24 +80,62 @@ public class GameEntity : Entity    // BT에 의존
         target = targets[0];
         return BTState.SUCCESS;
     }
+    
+    public BTState FindWayPoint()
+    {
 
+        if(waypointList.Count != 0)
+        {
+            return BTState.SUCCESS;
+        }
+        int nearstPathIndex = -1;
+        float nearstPathCost = float.MaxValue;
+
+        int teamIndex = (int)team;
+        for(int i = 0; i < GameData.playerPath.Length; i++)
+        {
+            float nowCost = ((Vector2)GameData.player[teamIndex].availablePath[i].GetNearstPathVertex(transform.position) - (Vector2)transform.position).sqrMagnitude;
+            if(nearstPathCost > nowCost)
+            {
+                nearstPathCost = nowCost;
+                nearstPathIndex = i;
+             }
+        }
+        if(nearstPathIndex == -1)
+            return BTState.FAILURE;
+        
+        int startPathIndex = GameData.player[teamIndex].availablePath[nearstPathIndex].GetNearstPathIndex(transform.position);
+        waypointList = GameData.player[teamIndex].availablePath[nearstPathIndex].SubPath(startPathIndex);
+
+        if(team == Team.TEAM_PLAYER && transform.position.y > waypointList[0].y
+            || team == Team.TEAM_ENEMY && transform.position.y < waypointList[0].y)
+            waypointList.RemoveAt(0);
+            
+        for(int i = 0; i < waypointList.Count; i++)
+        {
+            waypointList[i] += new Vector2(Random.Range(0f,0.3f),Random.Range(0f,0.3f));    // 인간미
+        }
+        return BTState.SUCCESS;
+    }
+    
     public void HitDamage(float damage)
     {
         /*
             나중에 Damage Indicator
          */
         hp = Mathf.Clamp(hp - damage, 0, maxHp);
-        if(hp == 0)
+        if(Mathf.Approximately(hp,0) && !isDie)
             Die();
     }
     public void Die()
     {
-        GameData.field.DeSpawn(gameObject);
+        isDie = true;
+        GameData.field.Despawn(gameObject);
     }
-
-    public void FirstState()
+    void OnEnable()
     {
+        isDie = false;
         hp = maxHp;
-    }
+    }   
 
 }

@@ -13,6 +13,6 @@ public class SpellCard : Card
         if(player.cost < cost)
             return;
         player.cost -= cost;
-        spell.Active(position);
+        spell.Active(player, position);
     }
 }

@@ -19,7 +19,7 @@ public class SpawnCard : Card
         for(int i = 0; i < spawnNum; i++)
         {
             GameEntity entity = GameData.field.Spawn(spawnEntityPrefab, position).GetComponent<GameEntity>();
-            entity.FirstState();
+            entity.team = player.team;
         }
     }
 }

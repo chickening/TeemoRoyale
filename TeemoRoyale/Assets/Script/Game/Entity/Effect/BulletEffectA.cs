@@ -10,7 +10,7 @@ public class BulletEffectA : GameEffect
         Vector2 dir = (targetPos - orgPos).normalized;
         transform.rotation = Quaternion.Euler(new Vector3(0,0,Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg));
         this.StartCoroutine(AnimationUtil.MoveAnimationCoroutine(gameObject, orgPos, targetPos, progressTime));
-        this.StartCoroutine(AnimationUtil.DestoryAnimationCoroutine(gameObject, progressTime));
+        this.StartCoroutine(AnimationUtil.DespawnAnimationCoroutine(gameObject, progressTime));
     }
     protected override void Awake()
     {

@@ -35,7 +35,7 @@ public class Field
         return FindEnemyGameEntityRadius(entity.transform.position, entity.team, radius);
     }//entity 를 중심으로 radius안의 같은인팀이 아닌 entity 반환
 
-    public List<GameEntity> FindEnemyGameEntityRadius(Vector2 position, int team , float radius)
+    public List<GameEntity> FindEnemyGameEntityRadius(Vector2 position, Team team , float radius)
     {
         List<GameEntity> suitableEntityList = new List<GameEntity>();
 
@@ -56,10 +56,15 @@ public class Field
     {
         GameObject obj = ObjectPoolManager.GetObjectPool(prefab).PopItem();
         obj.transform.position = position;
-        AddEntity(obj.GetComponent<Entity>());
+        Entity entity = obj.GetComponent<Entity>();
+        AddEntity(entity);
+        if(entity is GameEntity)
+        {
+            GameUI.AddHealthBar(entity as GameEntity);
+        }
         return obj;
     }
-    public void DeSpawn(GameObject item)
+    public void Despawn(GameObject item)
     {
         RemoveEntity(item.GetComponent<Entity>());
         ObjectPoolManager.GetObjectPool(item).PushItem(item);

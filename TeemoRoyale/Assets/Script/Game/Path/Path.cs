@@ -6,7 +6,7 @@ public class Path : ScriptableObject
 {
     [SerializeField]
     Transform[] createPathVertexs;
-    List<Vector2> path = new List<Vector2>();
+    List<Vector2> path;
     public int size
     {
         get
@@ -16,9 +16,13 @@ public class Path : ScriptableObject
     }
     void OnEnable()
     {
+        path = new List<Vector2>();
         for(int i = 0; i < createPathVertexs.Length; i++)
+        {
+            
             AddVertex(createPathVertexs[i].position);
-        Debug.Log("작동하니?");
+        }
+        
     }
     public void AddVertex(Vector2 pos)
     {
@@ -26,11 +30,9 @@ public class Path : ScriptableObject
     }
     public int GetNearstPathIndex(Vector2 pos)  // 가장 가까운 길의 vertex 인덱스 반환
     {
-        if(path.Count == 0)
-            return -1;
-        int nearstIndex = 0;
-        float nearstCost = (pos - path[0]).sqrMagnitude;
-        for(int i = 1; i < path.Count; i++)
+        int nearstIndex = -1;
+        float nearstCost = float.MaxValue;
+        for(int i = 0; i < path.Count; i++)
         {
             float nowCost = (pos - path[i]).sqrMagnitude;
             if(nearstCost > nowCost)
@@ -46,5 +48,21 @@ public class Path : ScriptableObject
         if(index < 0 || index >= path.Count)
             return null;
         return path[index];
+    }
+    public Vector2? GetNearstPathVertex(Vector2 pos)
+    {
+
+        int index = GetNearstPathIndex(pos);
+        if(index == -1)
+            return null;
+        return GetVertex(index);
+    }
+    public List<Vector2> SubPath(int startIndex)
+    {
+        if(startIndex < 0 || startIndex >= path.Count)
+        {
+            return null;
+        }
+        return path.GetRange(startIndex, path.Count - startIndex);
     }
 }

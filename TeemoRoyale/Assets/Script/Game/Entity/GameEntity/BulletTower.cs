@@ -26,7 +26,8 @@ public class BulletTower : GameEntity
         BulletEffectA effectScript = bullet.GetComponent<BulletEffectA>();
         effectScript.Init(transform.position, target.transform.position, 1f);
         yield return new WaitForSeconds(1f);
-        target.HitDamage(damage);
+        if(target.gameObject.activeSelf)
+            target.HitDamage(damage);
     }
     protected override void Awake()
     {

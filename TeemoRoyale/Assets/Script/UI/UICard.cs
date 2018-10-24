@@ -58,7 +58,7 @@ public class UICard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	bool isMouseDown = false;
 	public void OnPointerDown(PointerEventData eventData)
 	{
-		if(card.cost > GameData.player.cost)
+		if(card.cost > GameData.player[(int)Team.TEAM_PLAYER].cost)
 			return;
 		cardList.SelectCard(index);
 		isMouseDown = true;

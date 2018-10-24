@@ -10,6 +10,7 @@ public class GameData : MonoBehaviour   // 게임 데이터를 저장한는곳
         if(instance == null)
             instance = this;
     }
+    
     [SerializeField]
     Path[] _playerPath;
     static public Path[] playerPath
@@ -28,6 +29,59 @@ public class GameData : MonoBehaviour   // 게임 데이터를 저장한는곳
             return instance._enemyPath;
         }
     }
+    [SerializeField]
+    GameObject _towerPrefab;
+    public static GameObject towerPrefab
+    {
+        get{ return instance._towerPrefab; }
+    }
+    [System.Serializable]
+    public class TowerInfo
+    {
+        public Team team;
+        public Transform towerPosition;
+    }
+    [SerializeField]
+    TowerInfo[] _towerInfoArr;
+
+    public static TowerInfo[] towerInfoArr
+    {
+        get
+        {
+            return instance._towerInfoArr;
+        }
+    }
+    [System.Serializable]
+    public class NexusInfo
+    {
+        public Team team;
+        public Transform nexusPosition;
+    }
+    [SerializeField]
+    NexusInfo[] _nexusInfoArr;
+    public static NexusInfo[] nexusInfoArr
+    {
+        get
+        {
+            return instance._nexusInfoArr;
+        }
+    }
+    [SerializeField]
+    GameObject _nexusPrefab;
+    static public GameObject nexusPrefab
+    {
+        get
+        {
+            return instance._nexusPrefab;
+        }
+    }
+    [SerializeField]
+    float _amountIncreaseCost;
+    static public float amountIncreaseCost
+    {
+        get { return instance._amountIncreaseCost; }
+        set { instance._amountIncreaseCost = value;}
+    }
 
     static public bool isPlaying
     {
@@ -39,12 +93,7 @@ public class GameData : MonoBehaviour   // 게임 데이터를 저장한는곳
         get;
         set;
     } 
-    static public Player player
-    {
-        get;
-        set;
-    }
-    static public Player enemyPlayer
+    static public Player[] player
     {
         get;
         set;

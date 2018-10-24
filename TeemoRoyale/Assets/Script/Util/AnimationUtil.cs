@@ -19,4 +19,10 @@ public static class AnimationUtil
         yield return new WaitForSeconds(lifeTime);
         ObjectPoolManager.GetObjectPool(obj).PushItem(obj);
     }
+
+    static public IEnumerator DespawnAnimationCoroutine(GameObject obj , float lifeTime)
+    {
+        yield return new WaitForSeconds(lifeTime);
+        GameData.field.Despawn(obj);
+    }
 }

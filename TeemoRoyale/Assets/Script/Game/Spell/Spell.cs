@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Spell : ScriptableObject
 {
     [SerializeField]
@@ -10,7 +11,7 @@ public class Spell : ScriptableObject
     {
         get { return _id; }
     }
-    public void Active(Vector2 position)
+    public virtual void Active(Player player, Vector2 position)
     {
 
     }

@@ -35,6 +35,7 @@ public class UICardList : MonoBehaviour
 
 		Rect cardOrgRect = GetCardPosition(capacity - 1);
 		CoroutineManager.RegisterCoroutine(AnimationUtil.MoveAnimationCoroutine(newCardObj, cardOrgRect.center, cardTargetRect.center ,0.5f));
+		
 	}
 
 	public void SelectCard(int index)
@@ -59,7 +60,7 @@ public class UICardList : MonoBehaviour
 		card.cardGuide.Disable();
 		ObjectPoolManager.GetObjectPool(uiCardPrefab).PushItem(uiCardList[index].gameObject);
 		uiCardList.RemoveAt(index);
-		card.Active(GameData.player, CameraUtil.GetMouseWorldPosition(Camera.main));
+		card.Active(GameData.player[(int)Team.TEAM_PLAYER], CameraUtil.GetMouseWorldPosition(Camera.main));
 
 		for(int i = index; i < uiCardList.Count; i++)
 		{

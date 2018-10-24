@@ -10,16 +10,6 @@ public class GameLoader : MonoBehaviour // 게임 리소스를 로딩 하는곳
         get;
         private set;
     }
-    [SerializeField]
-    GameObject towerPrefab;
-    [System.Serializable]
-    class TowerInfo
-    {
-        public int team;
-        public Transform towerPosition;
-    }
-    [SerializeField]
-    TowerInfo[] towerInfoArr;
     void Awake()
     {  
         if(instance == null)
@@ -28,13 +18,23 @@ public class GameLoader : MonoBehaviour // 게임 리소스를 로딩 하는곳
     static public void GameLoad()
     {
         GameData.field = new Field();
-        for(int i = 0; i < instance.towerInfoArr.Length; i++)
+        for(int i = 0; i < GameData.towerInfoArr.Length; i++)
         {
-            GameEntity entity = GameData.field.Spawn(instance.towerPrefab, instance.towerInfoArr[i].towerPosition.position).GetComponent<GameEntity>();
-            entity.team = instance.towerInfoArr[i].team;
+            GameEntity entity = GameData.field.Spawn(GameData.towerPrefab, GameData.towerInfoArr[i].towerPosition.position).GetComponent<GameEntity>();
+            entity.team = GameData.towerInfoArr[i].team;
         }
-
-        GameData.player = new Player();
-        GameData.enemyPlayer = new Player();
+        for(int i = 0; i < GameData.nexusInfoArr.Length; i++)
+        {
+            GameEntity entity = GameData.field.Spawn(GameData.nexusPrefab, GameData.nexusInfoArr[i].nexusPosition.position).GetComponent<GameEntity>();
+            entity.team = GameData.nexusInfoArr[i].team;
+        }
+        Player[] playerArr = new Player[2];
+        for(int i = 0; i < playerArr.Length; i++)
+            playerArr[i] = new Player();
+        for(int i = 0; i < playerArr.Length; i++)
+            playerArr[i].amountIncreaseCost = GameData.amountIncreaseCost;
+        playerArr[(int)Team.TEAM_PLAYER].availablePath = GameData.playerPath;
+        playerArr[(int)Team.TEAM_ENEMY].availablePath = GameData.enemyPath;
+        GameData.player = playerArr;
     }
 }
