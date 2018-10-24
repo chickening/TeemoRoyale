@@ -82,7 +82,30 @@ public class GameData : MonoBehaviour   // 게임 데이터를 저장한는곳
         get { return instance._amountIncreaseCost; }
         set { instance._amountIncreaseCost = value;}
     }
+    [SerializeField]
+    Card[] _cardArr;
+    static public Card[] cardArr
+    {
+        get { return instance._cardArr; }
+    }
+    [SerializeField]
+    int _maxHandCardNum;
+    static public int maxHandCardNum
+    {
+        get { return instance._maxHandCardNum; }
+    }
 
+    [SerializeField]
+    public float _giveCardDelay;
+    static public float giveCardDelay
+    {
+        get { return instance._giveCardDelay; }
+    }
+    static public bool isEnd
+    {
+        get;
+        set;
+    }
     static public bool isPlaying
     {
         get;

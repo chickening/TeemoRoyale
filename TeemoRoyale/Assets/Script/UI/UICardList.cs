@@ -18,7 +18,15 @@ public class UICardList : MonoBehaviour
 	int? selectedCard;
 	[SerializeField]
 	Player ownerPlayer;
-
+	
+	void Update()
+	{
+		Card[] playerHandCardArr = GameData.player[(int)Team.TEAM_PLAYER].handCardArr;
+		if(playerHandCardArr.Length > uiCardList.Count)
+		{
+			AddCard(playerHandCardArr[uiCardList.Count]);
+		}
+	}
 	public void AddCard(Card card)
 	{
 		GameObject newCardObj = ObjectPoolManager.GetObjectPool(uiCardPrefab).PopItem();
@@ -37,7 +45,6 @@ public class UICardList : MonoBehaviour
 		CoroutineManager.RegisterCoroutine(AnimationUtil.MoveAnimationCoroutine(newCardObj, cardOrgRect.center, cardTargetRect.center ,0.5f));
 		
 	}
-
 	public void SelectCard(int index)
 	{
 		/*
@@ -69,6 +76,8 @@ public class UICardList : MonoBehaviour
 			.MoveAnimationCoroutine(uiCardList[i].gameObject, uiCardList[i].gameObject.transform.localPosition, newCardRect.center,0.5f));
 			uiCardList[i].index = i;
 		}
+		
+		GameData.player[(int)Team.TEAM_PLAYER].RemoveCardInHand(index);
 	}
 	Rect GetCardPosition(int index)
 	{

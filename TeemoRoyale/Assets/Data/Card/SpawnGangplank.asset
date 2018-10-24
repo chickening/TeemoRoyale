@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: SpawnGangplank
   _cost: 5
+  _costColor: {r: 1, g: 1, b: 1, a: 1}
   _image: {fileID: 21300000, guid: 88fe8b2d88e68f04e9d1a261b6313a0f, type: 3}
   _desription: 
   _cardGuide: {fileID: 11400000, guid: 7cda73fa72fe7ae478b173644a27dcfb, type: 2}

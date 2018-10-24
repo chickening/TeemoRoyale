@@ -25,16 +25,34 @@ public class Player
         get;
         set;
     }
+    public GameObject nexus
+    {
+        get;
+        set;
+    }
     Stack<Card> deck;
-    public void PushCard(Card card)
+    List<Card> handCardList = new List<Card>();
+    public void PushCardInDeck(Card card)
     {
         deck.Push(card);
     }
-    public Card PopCard()
+    public Card PushCardInDeck()
     {
         if(deck.Count == 0)
             return null;
         return deck.Pop();
+    }
+    public Card[] handCardArr
+    {
+        get { return handCardList.ToArray(); }
+    }
+    public void AddCardInHand(Card card)
+    {
+        handCardList.Add(card);
+    }
+    public void RemoveCardInHand(int index)
+    {
+        handCardList.RemoveAt(index);
     }
 }
 public class UserData

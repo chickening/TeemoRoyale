@@ -10,13 +10,15 @@ public class GameUI : MonoBehaviour //Game UI 에 관한것들을 총괄하는 �
     [SerializeField]
     GameObject healthBarPrefab;
     [SerializeField]
-    UICardList cardList;
-    [SerializeField]
-	Card testCard;
+    UICardList cardList;    
     [SerializeField]
     UIBar resourceBar;
     [SerializeField]
     Text costText;
+    [SerializeField]
+    GameObject playerWinBannerPrefab;
+    [SerializeField]
+    GameObject playerLoseBannerPrefab;
     void Awake()
     {
         if(instance == null)
@@ -24,8 +26,6 @@ public class GameUI : MonoBehaviour //Game UI 에 관한것들을 총괄하는 �
     }
     void Start()
     {
-        for(int i = 0; i < cardList.capacity; i++)
-            cardList.AddCard(testCard);
         resourceBar.maxValue = 10;
     }
     void Update()
@@ -43,5 +43,21 @@ public class GameUI : MonoBehaviour //Game UI 에 관한것들을 총괄하는 �
 
         healthBarObject.transform.SetParent(instance.canvasObject.transform);
         uiHealthBar.target = target;
+    }
+    static public void ShowPlayerWinBanner()
+    {
+        GameObject winBanner = ObjectPoolManager.GetObjectPool(instance.playerWinBannerPrefab).PopItem();
+        winBanner.transform.position = new Vector2(0, -Camera.main.pixelHeight / 2);
+        winBanner.transform.SetParent(instance.canvasObject.transform);
+        CoroutineManager.RegisterCoroutine(AnimationUtil.MoveAnimationCoroutine(winBanner, winBanner.transform.position , new Vector2(0,0), 2f));
+        CoroutineManager.RegisterCoroutine(AnimationUtil.DestoryAnimationCoroutine(winBanner, 10f));
+    }
+    static public void ShowPlayerLoseBanner()
+    {
+        GameObject loseBanner = ObjectPoolManager.GetObjectPool(instance.playerLoseBannerPrefab).PopItem();
+        loseBanner.transform.position = new Vector2(0, -Camera.main.pixelHeight / 2);
+        loseBanner.transform.SetParent(instance.canvasObject.transform);
+        CoroutineManager.RegisterCoroutine(AnimationUtil.MoveAnimationCoroutine(loseBanner, loseBanner.transform.position , new Vector2(0,0), 2f));
+        CoroutineManager.RegisterCoroutine(AnimationUtil.DestoryAnimationCoroutine(loseBanner, 10f));
     }
 }

@@ -36,6 +36,12 @@ public class GameEntity : Entity    // BT에 의존
     {
         get { return _speed; }
     }
+    [SerializeField]
+    float _attackDistance;
+    public float attackDistance
+    {
+        get { return _attackDistance;}
+    }
     /*
         API
     */
@@ -117,7 +123,22 @@ public class GameEntity : Entity    // BT에 의존
         }
         return BTState.SUCCESS;
     }
-    
+    public BTState WaypointToTarget()
+    {
+        if(target == null)
+            return BTState.FAILURE;
+        Vector2 orgPos = target.transform.position;
+        Vector2 targetPos = target.transform.position;
+        float distance = Mathf.Sqrt((orgPos - targetPos).sqrMagnitude);
+        waypointList = new List<Vector2>();
+
+
+        if(distance <= attackDistance)
+            return BTState.SUCCESS;
+        else
+            waypointList.Add(Vector2.Lerp(orgPos, targetPos, (distance - attackDistance) / distance));
+        return BTState.SUCCESS;
+    }
     public void HitDamage(float damage)
     {
         /*

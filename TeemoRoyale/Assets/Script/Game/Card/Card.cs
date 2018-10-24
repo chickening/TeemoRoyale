@@ -18,6 +18,12 @@ public class Card : ScriptableObject
         get { return _cost; }
     }
     [SerializeField]
+    Color _costColor;
+    public Color costColor
+    {
+        get { return _costColor; }
+    }
+    [SerializeField]
     Sprite _image;
     public Sprite image
     {
