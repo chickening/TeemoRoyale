@@ -36,7 +36,7 @@ public class UIBar : MonoBehaviour {
 			UpdateBar();
 		}
 	}
-	float _maxValue;
+	float _maxValue = 1;
 	public float maxValue
 	{
 		get
@@ -49,43 +49,53 @@ public class UIBar : MonoBehaviour {
 			UpdateBar();
 		}
 	}
-	float orgXScale;
-	float orgYScale;
-	float orgX;
-	float orgY;
-	float width;
-	float height;
-	void Awake()
+	public Vector2 position
 	{
-		orgXScale = bar.transform.localScale.x;
-		orgYScale = bar.transform.localScale.y;
-		orgX = bar.transform.localPosition.x;
-		orgY = bar.transform.localPosition.y;
-		Rect sizeRect = bar.GetComponent<RectTransform>().rect;
-		width = sizeRect.width;
-		height = sizeRect.height;
-	}
-	void Start () 
-	{
+		set
+		{
+			orgPosition = value;
+			UpdateBar();
+		}
+		get
+		{
+			return orgPosition;
+		}
 
 	}
+	Vector2 orgScale;
+	Vector2 orgPosition;
+	Rect sizeRect;
+	void Awake()
+	{
+		orgScale.x = bar.transform.localScale.x;
+		orgScale.y = bar.transform.localScale.y;
+		orgPosition.x = bar.transform.localPosition.x;
+		orgPosition.y = bar.transform.localPosition.y;
+
+		RectTransform rectTrasnfrom = bar.GetComponent<RectTransform>();
+		if(rectTrasnfrom != null)
+		{
+			sizeRect = rectTrasnfrom.rect;
+		}
+		else
+		{
+			Sprite sprite =	bar.GetComponent<SpriteRenderer>().sprite;
+			sizeRect = new Rect(0, 0, sprite.rect.width / sprite.pixelsPerUnit, sprite.rect.height / sprite.pixelsPerUnit);
+		}
+	}
+
 	void UpdateBar()
 	{
 		float percent = Mathf.Clamp(value / maxValue, 0f, 1f);
 		if(isHorizontal)
 		{
-			bar.transform.localScale = new Vector2(orgXScale * percent, orgYScale);
-			bar.transform.localPosition = new Vector2(orgX - (1 - percent) * width * orgXScale / 2, orgY);
+			bar.transform.localScale = new Vector2(orgScale.x * percent, orgScale.y);
+			bar.transform.localPosition = new Vector2(orgPosition.x - (1 - percent) * sizeRect.width * orgScale.x / 2, orgPosition.y);
 		}
 		else
 		{
-			bar.transform.localScale = new Vector2(orgXScale, orgYScale * percent);
-			bar.transform.localPosition = new Vector2(orgX, orgY - (1 - percent) * height * orgYScale / 2);
+			bar.transform.localScale = new Vector2(orgScale.x, orgScale.y * percent);
+			bar.transform.localPosition = new Vector2(orgPosition.x , orgPosition.y  - (1 - percent) * sizeRect.height * orgScale.y / 2);
 		}
-	}
-	public void MovePosition(Vector2 pos)
-	{
-		orgX = pos.x;
-		orgY = pos.y;
 	}
 }

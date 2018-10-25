@@ -5,22 +5,36 @@ using UnityEngine;
 public class UIHealthBar : MonoBehaviour 
 {
 
+	GameEntity _target;
 	public GameEntity target
 	{
-		get;
-		set;
+		get
+		{
+			return _target;
+		}
+		set
+		{
+			_target = value;
+			Sprite targetSprite = target.gameObject.GetComponent<SpriteRenderer>().sprite;
+			spacingY = target.gameObject.transform.lossyScale.y * targetSprite.rect.height / targetSprite.pixelsPerUnit / 2  + 0.2f;
+		}
 	}
 	[SerializeField]
 	GameObject healthBarObject;
 	[SerializeField]
 	UIBar healthBar;
+	
+	float spacingY;
+
+
 	void Update()
 	{
 		
 		if(target == null || !target.gameObject.activeSelf)
 			ObjectPoolManager.GetObjectPool(healthBarObject).PushItem(healthBarObject);
-		healthBarObject.transform.position = (Vector2)Camera.main.WorldToScreenPoint((Vector2)target.transform.position) - Camera.main.pixelRect.center + new Vector2(0f,140f);
-		healthBar.MovePosition(healthBarObject.transform.position);
+		
+		
+		healthBar.position = (Vector2)target.transform.position + new Vector2(0f, spacingY);
 		healthBar.value = target.hp;
 		healthBar.maxValue = target.maxHp;
 	}

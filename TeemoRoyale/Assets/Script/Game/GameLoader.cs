@@ -40,6 +40,6 @@ public class GameLoader : MonoBehaviour // 게임 리소스를 로딩 하는곳
         GameData.player = playerArr;
         GameData.isEnd = false;
 
-        Screen.SetResolution(1080,1920,true);
+        Screen.SetResolution(Screen.width, (int)(Screen.width * 9f / 16f),true);
     }
 }
