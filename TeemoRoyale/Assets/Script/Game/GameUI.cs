@@ -40,7 +40,6 @@ public class GameUI : MonoBehaviour //Game UI 에 관한것들을 총괄하는 �
     
         GameObject healthBarObject = ObjectPoolManager.GetObjectPool(instance.healthBarPrefab).PopItem();
         UIHealthBar uiHealthBar = healthBarObject.GetComponent<UIHealthBar>();
-
         uiHealthBar.target = target;
     }
     static public void ShowPlayerWinBanner()

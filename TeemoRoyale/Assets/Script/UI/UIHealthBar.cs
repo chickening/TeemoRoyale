@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class UIHealthBar : MonoBehaviour 
 {
 
@@ -23,17 +23,25 @@ public class UIHealthBar : MonoBehaviour
 	GameObject healthBarObject;
 	[SerializeField]
 	UIBar healthBar;
-	
 	float spacingY;
+	SpriteRenderer heathBasSpriteRenderer;
 
-
+	void Awake()
+	{
+		heathBasSpriteRenderer = healthBarObject.GetComponent<SpriteRenderer>();
+	}
 	void Update()
 	{
 		
 		if(target == null || !target.gameObject.activeSelf)
 			ObjectPoolManager.GetObjectPool(healthBarObject).PushItem(healthBarObject);
 		
-		
+			
+		if(target.team == Team.TEAM_PLAYER)
+           	heathBasSpriteRenderer.color = GameData.playerColor;
+		else if(target.team == Team.TEAM_ENEMY)
+			heathBasSpriteRenderer.color = GameData.enemyColor;
+			
 		healthBar.position = (Vector2)target.transform.position + new Vector2(0f, spacingY);
 		healthBar.value = target.hp;
 		healthBar.maxValue = target.maxHp;

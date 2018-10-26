@@ -35,6 +35,8 @@ public class GameLoader : MonoBehaviour // 게임 리소스를 로딩 하는곳
         
         for(int i = 0; i < playerArr.Length; i++)
             playerArr[i].amountIncreaseCost = GameData.amountIncreaseCost;
+        playerArr[(int)Team.TEAM_PLAYER].team = Team.TEAM_PLAYER;
+        playerArr[(int)Team.TEAM_ENEMY].team = Team.TEAM_ENEMY;
         playerArr[(int)Team.TEAM_PLAYER].availablePath = GameData.playerPath;
         playerArr[(int)Team.TEAM_ENEMY].availablePath = GameData.enemyPath;
         GameData.player = playerArr;

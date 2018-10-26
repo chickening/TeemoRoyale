@@ -9,6 +9,11 @@ public class GameData : MonoBehaviour   // 게임 데이터를 저장한는곳
     {
         if(instance == null)
             instance = this;
+        Sprite sprite = enemyRectObject.GetComponent<SpriteRenderer>().sprite;
+		enemyRect = new Rect(enemyRectObject.transform.position, new Vector2(sprite.rect.width / sprite.pixelsPerUnit, sprite.rect.height / sprite.pixelsPerUnit));
+
+		sprite = playerRectObject.GetComponent<SpriteRenderer>().sprite;
+		playerRect = new Rect(playerRectObject.transform.position, new Vector2(sprite.rect.width / sprite.pixelsPerUnit, sprite.rect.height / sprite.pixelsPerUnit));
     }
     
     [SerializeField]
@@ -100,6 +105,32 @@ public class GameData : MonoBehaviour   // 게임 데이터를 저장한는곳
     static public float giveCardDelay
     {
         get { return instance._giveCardDelay; }
+    }
+    [SerializeField]
+	GameObject enemyRectObject;	// 나중에 GameData로 변경
+	[SerializeField]
+	GameObject playerRectObject;	// 나중에 GameData로 변경
+    [SerializeField]
+    Color _playerColor;
+    static public Color playerColor
+    {
+        get { return instance._playerColor; }
+    }
+    [SerializeField]
+    Color _enemyColor;
+    static public Color enemyColor
+    {
+        get { return instance._enemyColor; }
+    }
+	static public Rect enemyRect
+    {
+        get;
+        set;
+    }
+	static public Rect playerRect
+    {
+        get;
+        set;
     }
     static public bool isEnd
     {

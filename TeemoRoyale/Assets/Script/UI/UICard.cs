@@ -48,12 +48,11 @@ public class UICard : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 		{
 			_card = value;
 			background = card.image;
-			Debug.Log(card.costColor);
 			textCost.color = card.costColor;
 			cost = card.cost;
 		}
 		get
-		{
+		{ 
 			return _card;
 		}
 	}
